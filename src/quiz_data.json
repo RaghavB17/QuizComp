@@ -1,0 +1,28 @@
+{
+  "quiz_questions": [
+    {
+      "id": 1,
+      "instruction_text": "How many continents are there on Planet Earth?",
+      "answer_options": ["5", "6", "7", "8"],
+      "answer": "7"
+    },
+    {
+      "id": 2,
+      "instruction_text": "Which one is the smallest ocean in the world?",
+      "answer_options": ["Pacific", "Atlantic", "Indian", "Arctic"],
+      "answer": "Arctic"
+    },
+    {
+      "id": 3,
+      "instruction_text": "Which country is known as Land of Rising Sun?",
+      "answer_options": ["Japan", "India", "NewZealand", "Fiji"],
+      "answer": "Japan"
+    },
+    {
+      "id": 4,
+      "instruction_text": "Which one is the largest tropical rainforest in the world?",
+      "answer_options": ["Bosawas", "Amazon", "Asian Rainforest", "Daintree Rainforest"],
+      "answer": "Amazon"
+    }
+  ]
+}
