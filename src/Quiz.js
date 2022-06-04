@@ -1,44 +1,96 @@
-import React, { Component } from "react";
-import QuizQuestion from "./QuizQuestion.js";
-import QuizEnd from "./QuizEnd.js";
+import React, { useState } from "react";
 
-let quizData = require("./quiz_data.json");
+export default function Quiz() {
+  const questions = [
+    {
+      questionText: "What is the capital of France?",
+      answerOptions: [
+        { answerText: "New York", isCorrect: false },
+        { answerText: "London", isCorrect: false },
+        { answerText: "Paris", isCorrect: true },
+        { answerText: "Dublin", isCorrect: false },
+      ],
+    },
+    {
+      questionText: "Who is CEO of Tesla?",
+      answerOptions: [
+        { answerText: "Jeff Bezos", isCorrect: false },
+        { answerText: "Elon Musk", isCorrect: true },
+        { answerText: "Bill Gates", isCorrect: false },
+        { answerText: "Tony Stark", isCorrect: false },
+      ],
+    },
+    {
+      questionText: "The iPhone was created by which company?",
+      answerOptions: [
+        { answerText: "Apple", isCorrect: true },
+        { answerText: "Intel", isCorrect: false },
+        { answerText: "Amazon", isCorrect: false },
+        { answerText: "Microsoft", isCorrect: false },
+      ],
+    },
+    {
+      questionText: "How many Harry Potter books are there?",
+      answerOptions: [
+        { answerText: "1", isCorrect: false },
+        { answerText: "4", isCorrect: false },
+        { answerText: "6", isCorrect: false },
+        { answerText: "7", isCorrect: true },
+      ],
+    },
+  ];
 
-class Quiz extends Component {
-  constructor(props) {
-    super(props);
-    this.state = { quiz_position: 1 };
-  }
+  const [currentQuestion, setCurrentQuestion] = useState(0);
+  const [showScore, setShowScore] = useState(false);
+  const [score, setScore] = useState(0);
 
-  showNextQuestion() {
-    this.setState((state) => {
-      return { quiz_position: state.quiz_position + 1 };
-    });
-  }
+  const handleAnswerButton = (isCorrect) => {
+    if (isCorrect) {
+      setScore(score + 1);
+    }
 
-  handleResetClick() {
-    this.setState({ quiz_position: 1 });
-  }
+    const nextQuestion = currentQuestion + 1;
+    if (nextQuestion < questions.length) {
+      setCurrentQuestion(nextQuestion);
+    } else {
+      setShowScore(true);
+    }
+  };
 
-  render() {
-    const isQuizEnd =
-      this.state.quiz_position - 1 === quizData.quiz_questions.length;
+  const handleResetButton = (score) => {
+    setCurrentQuestion(0);
+    setShowScore(false);
+    setScore(0);
+  };
 
-    return (
-      <div>
-        {isQuizEnd ? (
-          <QuizEnd resetClickHandler={this.handleResetClick.bind(this)} />
-        ) : (
-          <QuizQuestion
-            quiz_question={
-              quizData.quiz_questions[this.state.quiz_position - 1]
-            }
-            showNextQuestionHandler={this.showNextQuestion.bind(this)}
-          />
-        )}
-      </div>
-    );
-  }
+  return (
+    <div className="app">
+      {showScore ? (
+        <div className="score-section">
+          You scored {score} out of {questions.length}
+          <button onClick={() => handleResetButton(score)}>Play Again!</button>
+        </div>
+      ) : (
+        <>
+          <div className="question-section">
+            <div className="question-count">
+              <span>Question {currentQuestion + 1}</span>/{questions.length}
+            </div>
+            <div className="question-text">
+              {questions[currentQuestion].questionText}
+            </div>
+          </div>
+          <div className="answer-section">
+            {questions[currentQuestion].answerOptions.map((answerOption) => (
+              <button
+                onClick={() => handleAnswerButton(answerOption.isCorrect)}
+              >
+                {answerOption.answerText}
+              </button>
+            ))}
+          </div>
+        </>
+      )}
+    </div>
+  );
 }
-
-export default Quiz;
